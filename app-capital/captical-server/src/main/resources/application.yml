@@ -6,7 +6,7 @@ spring:
       name: app-captical
     server: true
     registry:
-      address: zookeeper://47.240.11.229:2181
+      address: zookeeper://192.168.0.102:2181
     protocol:
       name: dubbo
       port: 20880
@@ -35,5 +35,21 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+org:
+  dromara:
+    hmily :
+      serializer : kryo
+      recoverDelayTime : 128
+      retryMax : 30
+      scheduledDelay : 128
+      scheduledThreadMax :  10
+      repositorySupport : db
+      started: false
+      hmilyDbConfig :
+        driverClassName  : com.mysql.jdbc.Driver
+        url :  jdbc:mysql://47.113.35.78:3306/tcc?useUnicode=true&characterEncoding=utf8
+        username : root
+        password : 123456
 mybatis:
   mapper-locations: classpath:mybatis.mappers/*.xml

@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
     private CapService capService;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ServerResponse alipayBack(Map<String, String> requestParamMap) {
         final String orderNo = requestParamMap.get("out_trade_no");
         final String tradeStatus = requestParamMap.get("trade_status");
@@ -54,18 +54,12 @@ public class OrderServiceImpl implements OrderService {
 
             if (row > 0) {
                 //派送红包
-                ServerResponse redResult = redPacketService.dispatchRedPacket(order.getOrderNo(),order.getUserId(),Const.RedPacket.RED_MONEY);
-                log.info("派送红包是否成功:{}",redResult.isSuccess());
+                redPacketService.dispatchRedPacket(order.getOrderNo(),order.getUserId(),Const.RedPacket.RED_MONEY);
                 //商户加款
-                ServerResponse capResult = capService.addAmount(order.getUserId(), order.getOrderNo(), order.getPayment());
-                log.info("商户加款是否成功:{}",capResult.isSuccess());
+                capService.addAmount(order.getUserId(), order.getOrderNo(), order.getPayment());
             } else {
                 return ServerResponse.createByErrorMessage("order修改订单失败");
             }
-
-
-
-
         }
         return ServerResponse.createBySuccess("执行完毕");
     }

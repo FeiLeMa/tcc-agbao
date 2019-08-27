@@ -6,7 +6,7 @@ spring:
     application:            #应用配置，用于配置当前应用信息，不管该应用是提供者还是消费者。
       name: app-order
     registry:                 #注册中心配置，用于配置连接注册中心相关信息。
-      address: zookeeper://47.240.11.229:2181
+      address: zookeeper://192.168.0.102:2181
     scan: com.alag.agbao.business.order.service.impl #Reference 注解所在类
     consumer:
       check: false

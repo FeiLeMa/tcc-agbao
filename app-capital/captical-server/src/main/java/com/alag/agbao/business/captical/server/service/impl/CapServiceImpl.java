@@ -12,6 +12,7 @@ import com.alag.agbao.business.core.util.BigDecimalUtil;
 import com.alag.agbao.business.core.util.IDGenerator;
 import com.alibaba.dubbo.config.annotation.Service;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.hmily.annotation.Hmily;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,8 @@ public class CapServiceImpl implements CapService {
     private CapTradeOrderMapper capTradeOrderMapper;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
+    @Hmily(confirmMethod = "addAmountConfirm",cancelMethod = "addAmountCancel")
     public ServerResponse addAmount(String userId, String orderNo, BigDecimal payment) {
         CapTradeOrder capTradeOrder = CapTradeOrder.setReturn(cTOrder -> {
             cTOrder.setAmount(payment);

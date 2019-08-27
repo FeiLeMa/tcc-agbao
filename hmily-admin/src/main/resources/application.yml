@@ -1,0 +1,23 @@
+server:
+   port: 8888
+   servlet:
+     context-path: /hmily-admin
+
+spring:
+   application:
+      name: hmily-admin
+   profiles:
+     active: db
+
+hmily:
+  admin :
+    userName : admin
+    password : admin
+
+compensation:
+   application:
+      list : app-captical,app-packet
+   serializer :
+      support: kryo
+   retry :
+      max: 10

@@ -1,0 +1,4 @@
+compensation:
+   zookeeper:
+      host : 192.168.0.102:2181
+      sessionTimeOut : 3000

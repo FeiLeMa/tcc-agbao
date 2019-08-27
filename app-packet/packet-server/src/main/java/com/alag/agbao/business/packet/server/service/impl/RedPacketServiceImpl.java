@@ -10,6 +10,7 @@ import com.alag.agbao.business.packet.server.mapper.RedAccountMapper;
 import com.alag.agbao.business.packet.server.mapper.RedTradeOrderMapper;
 import com.alibaba.dubbo.config.annotation.Service;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.hmily.annotation.Hmily;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,8 @@ public class RedPacketServiceImpl implements RedPacketService {
     private RedTradeOrderMapper redTradeOrderMapper;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
+    @Hmily(confirmMethod = "dispatchRedPacketConfirm",cancelMethod = "dispatchRedPacketCancel")
     public ServerResponse dispatchRedPacket(String orderNo, String userId, BigDecimal redMoney) {
         RedTradeOrder redTradeOrder = RedTradeOrder.setReturn(rTOrder -> {
             rTOrder.setAmount(redMoney);
